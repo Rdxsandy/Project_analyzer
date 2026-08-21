@@ -103,9 +103,18 @@ public class ScanController {
     }
 
     @GetMapping("/{id}/ai-reviews")
-    public List<com.codeguardian.scanservice.entity.AIReview> getAIReviews(
+    public List<com.codeguardian.scanservice.dto.AIReviewResponse> getAIReviews(
             @PathVariable Long id
     ) {
-        return aiReviewRepository.findByScan_Id(id);
+        return aiReviewRepository.findByScan_Id(id).stream()
+                .map(r -> new com.codeguardian.scanservice.dto.AIReviewResponse(
+                        r.getId(),
+                        r.getRule(),
+                        r.isValid(),
+                        r.getConfidence(),
+                        r.getExplanation(),
+                        r.getRecommendation()
+                ))
+                .toList();
     }
 }
