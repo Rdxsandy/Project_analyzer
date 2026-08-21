@@ -1,22 +1,13 @@
 package com.codeguardian.scanservice.config;
 
-import com.codeguardian.scanservice.messaging.RabbitMQConstants;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.codeguardian.scanservice.messaging.RabbitMQConstants;
+
 @Configuration
 public class RabbitMQConfig {
-
-    @Bean
-    public DirectExchange scanExchange() {
-        return new DirectExchange(
-                RabbitMQConstants.SCAN_EXCHANGE
-        );
-    }
 
     @Bean
     public Queue scanQueue() {
@@ -27,13 +18,36 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding scanBinding(
-            Queue scanQueue,
-            DirectExchange scanExchange) {
+    public Queue resultQueue() {
+        return new Queue(
+                RabbitMQConstants.RESULT_QUEUE,
+                true
+        );
+    }
 
-        return BindingBuilder
-                .bind(scanQueue)
-                .to(scanExchange)
-                .with(RabbitMQConstants.SCAN_ROUTING_KEY);
+    @Bean
+    public Queue aiResultQueue() {
+        return new Queue(
+                RabbitMQConstants.AI_RESULT_QUEUE,
+                true
+        );
+    }
+
+    @Bean
+    public org.springframework.amqp.core.TopicExchange aiExchange() {
+        return new org.springframework.amqp.core.TopicExchange(
+                RabbitMQConstants.AI_EXCHANGE
+        );
+    }
+
+    @Bean
+    public org.springframework.amqp.core.Binding aiResultBinding(
+            Queue aiResultQueue,
+            org.springframework.amqp.core.TopicExchange aiExchange
+    ) {
+        return org.springframework.amqp.core.BindingBuilder
+                .bind(aiResultQueue)
+                .to(aiExchange)
+                .with("ai.result");
     }
 }

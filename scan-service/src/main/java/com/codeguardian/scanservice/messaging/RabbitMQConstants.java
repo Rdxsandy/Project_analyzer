@@ -1,13 +1,19 @@
 package com.codeguardian.scanservice.messaging;
 
-public final class RabbitMQConstants {
+public class RabbitMQConstants {
+
+    public static final String SCAN_QUEUE =
+            "codeguardian.scan.queue";
+
+    public static final String RESULT_QUEUE =
+            "codeguardian.scan.result.queue";
+
+    public static final String AI_RESULT_QUEUE =
+            "codeguardian.ai.result.queue";
+
+    public static final String AI_EXCHANGE =
+            "codeguardian.ai.exchange";
 
     private RabbitMQConstants() {
     }
-
-    public static final String SCAN_EXCHANGE = "codeguardian.scan.exchange";
-
-    public static final String SCAN_QUEUE = "codeguardian.scan.queue";
-
-    public static final String SCAN_ROUTING_KEY = "scan.created";
 }

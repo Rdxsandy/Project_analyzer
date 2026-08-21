@@ -12,12 +12,15 @@ public class ScanMessagePublisher {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void publishScan(ScanMessage message) {
-
+    public void publish(ScanMessage message) {
         rabbitTemplate.convertAndSend(
-                RabbitMQConstants.SCAN_EXCHANGE,
-                RabbitMQConstants.SCAN_ROUTING_KEY,
+                RabbitMQConstants.SCAN_QUEUE,
                 message
+        );
+
+        System.out.println(
+                "Scan message published: scanId=" + message.getScanId()
+                        + ", projectId=" + message.getProjectId()
         );
     }
 }

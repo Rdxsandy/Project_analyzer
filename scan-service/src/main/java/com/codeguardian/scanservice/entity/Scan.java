@@ -48,6 +48,16 @@ public class Scan {
 
     private Integer lowIssues;
 
+    private Integer qualityScore;
+
+    public Integer getQualityScore() {
+        return qualityScore;
+    }
+
+    public void setQualityScore(Integer qualityScore) {
+        this.qualityScore = qualityScore;
+    }
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 

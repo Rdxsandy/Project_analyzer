@@ -11,14 +11,25 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import com.codeguardian.scanservice.dto.ScanMetricsResponse;
+import com.codeguardian.scanservice.service.ScanMetricsService;
+
 @RestController
 @RequestMapping("/api/scans")
 public class ScanController {
 
     private final ScanService scanService;
+    private final ScanMetricsService scanMetricsService;
+    private final com.codeguardian.scanservice.repository.AIReviewRepository aiReviewRepository;
 
-    public ScanController(ScanService scanService) {
+    public ScanController(
+            ScanService scanService,
+            ScanMetricsService scanMetricsService,
+            com.codeguardian.scanservice.repository.AIReviewRepository aiReviewRepository
+    ) {
         this.scanService = scanService;
+        this.scanMetricsService = scanMetricsService;
+        this.aiReviewRepository = aiReviewRepository;
     }
 
     @PostMapping
@@ -82,5 +93,19 @@ public class ScanController {
         return ResponseEntity.ok(
                 scanService.getScanIssues(id)
         );
+    }
+
+    @GetMapping("/{id}/metrics")
+    public ScanMetricsResponse getMetrics(
+            @PathVariable Long id
+    ) {
+        return scanMetricsService.calculate(id);
+    }
+
+    @GetMapping("/{id}/ai-reviews")
+    public List<com.codeguardian.scanservice.entity.AIReview> getAIReviews(
+            @PathVariable Long id
+    ) {
+        return aiReviewRepository.findByScan_Id(id);
     }
 }

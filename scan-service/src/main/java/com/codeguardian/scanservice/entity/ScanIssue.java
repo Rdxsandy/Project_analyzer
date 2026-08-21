@@ -16,8 +16,9 @@ public class ScanIssue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long scanId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "scan_id", nullable = false)
+    private Scan scan;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

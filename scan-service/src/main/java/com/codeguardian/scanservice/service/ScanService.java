@@ -54,16 +54,22 @@ public class ScanService {
                 
         Scan savedScan = scanRepository.save(scan);
 
+        boolean isIncremental = savedScan.getPullRequestNumber() != null;
         ScanMessage message = new ScanMessage(
                 savedScan.getId(),
                 savedScan.getProjectId(),
                 savedScan.getRepositoryOwner(),
                 savedScan.getRepositoryName(),
-                savedScan.getPullRequestNumber(),
-                savedScan.getCommitSha()
+                "main", // Default branch since it's not stored in Scan entity
+                savedScan.getPullRequestNumber() != null ? Long.valueOf(savedScan.getPullRequestNumber()) : null,
+                isIncremental
         );
 
-        scanMessagePublisher.publishScan(message);
+        scanMessagePublisher.publish(message);
+        
+        savedScan.setStatus(ScanStatus.RUNNING);
+        savedScan.setStartedAt(LocalDateTime.now());
+        savedScan = scanRepository.save(savedScan);
 
         return toResponse(savedScan);
     }
@@ -141,6 +147,7 @@ public class ScanService {
                 scan.getHighIssues(),
                 scan.getMediumIssues(),
                 scan.getLowIssues(),
+                scan.getQualityScore(),
                 scan.getCreatedAt(),
                 scan.getStartedAt(),
                 scan.getCompletedAt()

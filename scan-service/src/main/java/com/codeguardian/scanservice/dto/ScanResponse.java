@@ -18,6 +18,7 @@ public record ScanResponse(
         Integer highIssues,
         Integer mediumIssues,
         Integer lowIssues,
+        Integer qualityScore,
         LocalDateTime createdAt,
         LocalDateTime startedAt,
         LocalDateTime completedAt
