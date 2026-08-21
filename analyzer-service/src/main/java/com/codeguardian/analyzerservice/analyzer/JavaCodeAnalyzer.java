@@ -127,4 +127,29 @@ public class JavaCodeAnalyzer implements CodeAnalyzer {
             }
         }
     }
+
+    /**
+     * Public entry-point used by MultiLanguageAnalyzer for full Java scans.
+     * Does not clone — workspace is already prepared.
+     */
+    public List<CodeIssue> analyzeWorkspace(Path workspace) throws Exception {
+        List<CodeIssue> issues = new ArrayList<>();
+        List<Path> files = fileScanner.findJavaFiles(workspace.toString());
+
+        for (Path file : files) {
+            try {
+                List<String> lines = java.nio.file.Files.readAllLines(file);
+                CompilationUnit unit = astParser.parse(file);
+                String relativeFile = workspace.relativize(file).toString();
+                List<CodeIssue> fileIssues = ruleEngine.analyze(relativeFile, unit);
+                fileIssues.forEach(issue ->
+                        issue.setSourceContext(sourceContextExtractor.extract(lines, issue.getLine()))
+                );
+                issues.addAll(fileIssues);
+            } catch (Exception e) {
+                System.err.println("Error analyzing Java file " + file + ": " + e.getMessage());
+            }
+        }
+        return issues;
+    }
 }

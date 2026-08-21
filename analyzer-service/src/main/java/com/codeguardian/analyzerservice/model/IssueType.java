@@ -5,5 +5,6 @@ public enum IssueType {
     SECURITY,
     PERFORMANCE,
     CODE_SMELL,
+    CODE_QUALITY,
     MAINTAINABILITY
 }

@@ -65,6 +65,11 @@ public class ScanService {
                 isIncremental
         );
 
+        // Forward language — defaults to JAVA for backwards compatibility
+        message.setLanguage(
+                request.getLanguage() != null ? request.getLanguage() : "JAVA"
+        );
+
         scanMessagePublisher.publish(message);
         
         savedScan.setStatus(ScanStatus.RUNNING);

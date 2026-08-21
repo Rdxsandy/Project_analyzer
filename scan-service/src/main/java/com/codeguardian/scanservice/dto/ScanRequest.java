@@ -60,4 +60,19 @@ public class ScanRequest {
     public void setCommitSha(String commitSha) {
         this.commitSha = commitSha;
     }
+
+    /**
+     * Language of the repository to analyze.
+     * Accepted values: JAVA, PYTHON, JAVASCRIPT
+     * Defaults to JAVA for backwards compatibility.
+     */
+    private String language = "JAVA";
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }

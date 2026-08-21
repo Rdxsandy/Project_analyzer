@@ -9,6 +9,7 @@ public class ScanMessage {
     private String branch;
     private Long pullRequestNumber;
     private boolean incremental;
+    private String language = "JAVA";
 
     public ScanMessage() {
     }
@@ -85,5 +86,13 @@ public class ScanMessage {
 
     public void setIncremental(boolean incremental) {
         this.incremental = incremental;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }
