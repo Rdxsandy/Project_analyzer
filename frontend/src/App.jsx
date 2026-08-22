@@ -6,6 +6,7 @@ import NewProject from './pages/NewProject'
 import ProjectDetail from './pages/ProjectDetail'
 import NewScan from './pages/NewScan'
 import ScanDetail from './pages/ScanDetail'
+import Upload from './pages/Upload'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/projects/:id" element={<ProjectDetail />} />
         <Route path="/scans/new" element={<NewScan />} />
         <Route path="/scans/:id" element={<ScanDetail />} />
+        <Route path="/upload" element={<Upload />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>

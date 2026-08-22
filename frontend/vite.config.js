@@ -14,6 +14,10 @@ export default defineConfig({
         target: 'http://localhost:8082',
         changeOrigin: true,
       },
+      '/api/upload': {
+        target: 'http://localhost:8086',
+        changeOrigin: true,
+      },
     },
   },
 })

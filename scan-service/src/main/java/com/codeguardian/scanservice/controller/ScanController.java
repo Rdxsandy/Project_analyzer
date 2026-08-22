@@ -102,6 +102,15 @@ public class ScanController {
         return scanMetricsService.calculate(id);
     }
 
+    @PostMapping("/{id}/issues/bulk")
+    public ResponseEntity<Void> saveBulkIssues(
+            @PathVariable Long id,
+            @RequestBody List<com.codeguardian.scanservice.dto.BulkIssueRequest> issues
+    ) {
+        scanService.saveBulkIssues(id, issues);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{id}/ai-reviews")
     public List<com.codeguardian.scanservice.dto.AIReviewResponse> getAIReviews(
             @PathVariable Long id
@@ -118,3 +127,4 @@ public class ScanController {
                 .toList();
     }
 }
+
