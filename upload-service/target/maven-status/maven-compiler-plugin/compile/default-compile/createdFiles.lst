@@ -1,8 +1,0 @@
-com\codeguardian\uploadservice\service\UploadScanService.class
-com\codeguardian\uploadservice\config\RestTemplateConfig.class
-com\codeguardian\uploadservice\service\UploadScanService$1.class
-com\codeguardian\uploadservice\UploadServiceApplication.class
-com\codeguardian\uploadservice\controller\UploadController.class
-com\codeguardian\uploadservice\config\CorsConfig.class
-com\codeguardian\uploadservice\dto\UploadScanResponse$IssueDto.class
-com\codeguardian\uploadservice\dto\UploadScanResponse.class

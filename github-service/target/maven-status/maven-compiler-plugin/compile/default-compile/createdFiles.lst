@@ -1,9 +1,0 @@
-com\codeguardian\githubservice\messaging\AnalysisResultMessage.class
-com\codeguardian\githubservice\github\PullRequestCommentFormatter.class
-com\codeguardian\githubservice\github\GitHubApiClient.class
-com\codeguardian\githubservice\messaging\AnalysisIssueMessage.class
-com\codeguardian\githubservice\GithubServiceApplication.class
-com\codeguardian\githubservice\messaging\RabbitMQConstants.class
-com\codeguardian\githubservice\config\RabbitMQConfig.class
-com\codeguardian\githubservice\messaging\AnalysisResultConsumer.class
-com\codeguardian\githubservice\config\RabbitMQMessageConfig.class
