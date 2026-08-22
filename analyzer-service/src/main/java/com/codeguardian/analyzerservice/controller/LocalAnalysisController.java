@@ -61,11 +61,18 @@ public class LocalAnalysisController {
         List<CodeIssue> issues;
 
         try {
-            issues = switch (language) {
-                case PYTHON     -> pythonCodeAnalyzer.analyzeWorkspace(workspace);
-                case JAVASCRIPT -> javaScriptCodeAnalyzer.analyzeWorkspace(workspace);
-                default         -> javaCodeAnalyzer.analyzeWorkspace(workspace);
-            };
+            if (language == Language.MULTI) {
+                issues = new java.util.ArrayList<>();
+                issues.addAll(pythonCodeAnalyzer.analyzeWorkspace(workspace));
+                issues.addAll(javaScriptCodeAnalyzer.analyzeWorkspace(workspace));
+                issues.addAll(javaCodeAnalyzer.analyzeWorkspace(workspace));
+            } else {
+                issues = switch (language) {
+                    case PYTHON     -> pythonCodeAnalyzer.analyzeWorkspace(workspace);
+                    case JAVASCRIPT -> javaScriptCodeAnalyzer.analyzeWorkspace(workspace);
+                    default         -> javaCodeAnalyzer.analyzeWorkspace(workspace);
+                };
+            }
         } catch (Exception e) {
             System.err.println("[LocalAnalysis] Failed: " + e.getMessage());
             issues = Collections.emptyList();
