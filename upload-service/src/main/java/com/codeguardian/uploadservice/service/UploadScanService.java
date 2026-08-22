@@ -201,9 +201,22 @@ public class UploadScanService {
     }
 
     private void bulkStoreIssues(Long scanId, List<Map<String, Object>> rawIssues) {
+        // Remap CodeIssue field names → BulkIssueRequest field names
+        List<Map<String, Object>> mapped = rawIssues.stream().map(m -> {
+            Map<String, Object> b = new LinkedHashMap<>();
+            b.put("severity",    str(m.get("severity")));
+            b.put("type",        str(m.get("type")));
+            b.put("message",     str(m.get("message")));
+            b.put("filePath",    str(m.get("file")));           // file → filePath
+            b.put("lineNumber",  m.get("line"));                // line → lineNumber
+            b.put("ruleId",      str(m.get("rule")));           // rule → ruleId
+            b.put("suggestion",  str(m.get("recommendation"))); // recommendation → suggestion
+            return b;
+        }).toList();
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<List<Map<String, Object>>> request = new HttpEntity<>(rawIssues, headers);
+        HttpEntity<List<Map<String, Object>>> request = new HttpEntity<>(mapped, headers);
         try {
             restTemplate.postForEntity(
                     scanUrl + "/api/scans/" + scanId + "/issues/bulk",

@@ -15,8 +15,6 @@ public class ScanRequest {
     @NotBlank(message = "Repository name is required")
     private String repositoryName;
 
-    @NotNull(message = "Pull request number is required")
-    @Min(value = 1, message = "Pull request number must be greater than 0")
     private Integer pullRequestNumber;
 
     private String commitSha;

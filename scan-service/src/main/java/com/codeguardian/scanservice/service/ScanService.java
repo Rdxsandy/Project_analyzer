@@ -35,8 +35,11 @@ public class ScanService {
     }
 
     public ScanResponse createScan(ScanRequest request) {
-        // Verify the project exists in project-service before creating the scan
-        projectServiceClient.verifyProjectExists(request.getProjectId());
+        // Skip project verification for local upload scans (no GitHub repo)
+        boolean isLocalUpload = "local-upload".equals(request.getRepositoryOwner());
+        if (!isLocalUpload && request.getProjectId() != null) {
+            projectServiceClient.verifyProjectExists(request.getProjectId());
+        }
 
         Scan scan = Scan.builder()
                 .projectId(request.getProjectId())
