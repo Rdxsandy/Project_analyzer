@@ -251,14 +251,13 @@ export default function Upload() {
           onDrop={onDrop}
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
-          className={`card border-2 border-dashed rounded-xl p-10 text-center transition-colors duration-200 cursor-pointer ${
+          className={`card border-2 border-dashed rounded-xl p-10 text-center transition-colors duration-200 ${
             isDragging
               ? 'border-indigo-500 bg-indigo-500/10'
               : 'border-slate-600 hover:border-slate-500 hover:bg-slate-800/50'
           }`}
-          onClick={() => fileInputRef.current?.click()}
         >
-          <div className="flex flex-col items-center gap-3 pointer-events-none">
+          <div className="flex flex-col items-center gap-3">
             <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-colors ${
               isDragging ? 'bg-indigo-500/30' : 'bg-slate-700/60'
             }`}>
@@ -276,13 +275,13 @@ export default function Upload() {
                 .java · .py · .js · .ts · .jsx · .tsx · .zip
               </p>
             </div>
-            <div className="flex gap-3">
-              <span className="btn-secondary text-xs py-1.5 pointer-events-auto"
-                onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click() }}>
+            <div className="flex gap-3 mt-2">
+              <span className="btn-secondary text-xs py-1.5 cursor-pointer"
+                onClick={() => fileInputRef.current?.click()}>
                 Browse Files
               </span>
-              <span className="btn-secondary text-xs py-1.5 pointer-events-auto"
-                onClick={(e) => { e.stopPropagation(); folderInputRef.current?.click() }}>
+              <span className="btn-secondary text-xs py-1.5 cursor-pointer"
+                onClick={() => folderInputRef.current?.click()}>
                 Browse Folder
               </span>
             </div>
@@ -300,9 +299,8 @@ export default function Upload() {
           <input
             ref={folderInputRef}
             type="file"
-            multiple
-            // @ts-ignore
-            webkitdirectory="true"
+            webkitdirectory=""
+            directory=""
             className="hidden"
             onChange={e => { addFiles(e.target.files); e.target.value = '' }}
           />
