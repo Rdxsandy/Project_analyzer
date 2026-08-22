@@ -7,7 +7,7 @@ import { LanguageBadge } from '../components/ui/Badge'
 import QualityScore from '../components/ui/QualityScore'
 import { SeverityBadge } from '../components/ui/Badge'
 
-const LANGUAGES = ['JAVA', 'PYTHON', 'JAVASCRIPT']
+const LANGUAGES = ['MULTI', 'JAVA', 'PYTHON', 'JAVASCRIPT']
 const ALLOWED_EXT = new Set(['.java', '.py', '.js', '.ts', '.jsx', '.tsx', '.zip'])
 
 function ext(name) {
@@ -138,7 +138,7 @@ function UploadResults({ result, onNewScan }) {
 export default function Upload() {
   const { data: projects = [] } = useQuery({ queryKey: ['projects'], queryFn: getProjects })
 
-  const [language, setLanguage] = useState('JAVA')
+  const [language, setLanguage] = useState('MULTI')
   const [projectId, setProjectId] = useState('')
   const [files, setFiles] = useState([])
   const [isDragging, setIsDragging] = useState(false)
@@ -189,7 +189,7 @@ export default function Upload() {
     setProgress(0)
 
     const fd = new FormData()
-    files.forEach(f => fd.append('files', f))
+    files.forEach(f => fd.append('files', f, f.webkitRelativePath || f.name))
     fd.append('language', language)
     if (projectId) fd.append('projectId', projectId)
 
@@ -324,7 +324,7 @@ export default function Upload() {
             <div className="max-h-48 overflow-y-auto divide-y divide-slate-700/60">
               {files.map((f, i) => (
                 <div key={i} className="flex items-center gap-3 px-4 py-2.5 hover:bg-slate-700/30">
-                  <span className="font-mono text-xs text-slate-400 flex-1 truncate">{f.name}</span>
+                  <span className="font-mono text-xs text-slate-400 flex-1 truncate">{f.webkitRelativePath || f.name}</span>
                   <span className="text-xs text-slate-600 shrink-0">{formatBytes(f.size)}</span>
                   <button type="button" onClick={() => removeFile(i)}
                     className="text-slate-600 hover:text-red-400 transition-colors shrink-0">

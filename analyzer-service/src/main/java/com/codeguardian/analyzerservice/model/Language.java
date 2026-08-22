@@ -3,7 +3,8 @@ package com.codeguardian.analyzerservice.model;
 public enum Language {
     JAVA,
     PYTHON,
-    JAVASCRIPT;
+    JAVASCRIPT,
+    MULTI;
 
     public static Language fromString(String value) {
         if (value == null || value.isBlank()) {

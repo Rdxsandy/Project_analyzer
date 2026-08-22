@@ -122,10 +122,19 @@ public class MultiLanguageAnalyzer {
             String repository,
             Path workspace
     ) throws Exception {
+        if (language == Language.MULTI) {
+            List<CodeIssue> multiIssues = new ArrayList<>();
+            multiIssues.addAll(routeJava(incremental, pullRequestNumber, owner, repository, workspace));
+            multiIssues.addAll(routePython(incremental, pullRequestNumber, owner, repository, workspace));
+            multiIssues.addAll(routeJavaScript(incremental, pullRequestNumber, owner, repository, workspace));
+            return multiIssues;
+        }
+
         return switch (language) {
             case JAVA -> routeJava(incremental, pullRequestNumber, owner, repository, workspace);
             case PYTHON -> routePython(incremental, pullRequestNumber, owner, repository, workspace);
             case JAVASCRIPT -> routeJavaScript(incremental, pullRequestNumber, owner, repository, workspace);
+            default -> new ArrayList<>();
         };
     }
 

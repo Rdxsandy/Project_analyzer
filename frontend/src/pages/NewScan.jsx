@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import { getProjects } from '../api/projects'
 import { createScan } from '../api/scans'
 
-const LANGUAGES = ['JAVA', 'PYTHON', 'JAVASCRIPT']
+const LANGUAGES = ['MULTI', 'JAVA', 'PYTHON', 'JAVASCRIPT']
 
 export default function NewScan() {
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ export default function NewScan() {
     projectId: preselectedProjectId || '',
     repositoryOwner: '',
     repositoryName: '',
-    language: 'JAVA',
+    language: 'MULTI',
     branch: 'main',
     pullRequestNumber: '',
   })
