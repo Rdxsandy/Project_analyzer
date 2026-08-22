@@ -45,7 +45,7 @@ public class ScanService {
                 .projectId(request.getProjectId())
                 .repositoryOwner(request.getRepositoryOwner())
                 .repositoryName(request.getRepositoryName())
-                .pullRequestNumber(request.getPullRequestNumber())
+                .pullRequestNumber(request.getPullRequestNumber() != null ? request.getPullRequestNumber() : 0)
                 .status(ScanStatus.PENDING)
                 .commitSha(request.getCommitSha())
                 .totalFiles(0)
@@ -59,14 +59,14 @@ public class ScanService {
                 
         Scan savedScan = scanRepository.save(scan);
 
-        boolean isIncremental = savedScan.getPullRequestNumber() != null;
+        boolean isIncremental = savedScan.getPullRequestNumber() != null && savedScan.getPullRequestNumber() > 0;
         ScanMessage message = new ScanMessage(
                 savedScan.getId(),
                 savedScan.getProjectId(),
                 savedScan.getRepositoryOwner(),
                 savedScan.getRepositoryName(),
                 "main", // Default branch since it's not stored in Scan entity
-                savedScan.getPullRequestNumber() != null ? Long.valueOf(savedScan.getPullRequestNumber()) : null,
+                savedScan.getPullRequestNumber() != null && savedScan.getPullRequestNumber() > 0 ? Long.valueOf(savedScan.getPullRequestNumber()) : null,
                 isIncremental
         );
 

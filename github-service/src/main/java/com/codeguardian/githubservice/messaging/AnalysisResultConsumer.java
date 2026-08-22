@@ -26,7 +26,7 @@ public class AnalysisResultConsumer {
             AnalysisResultMessage result
     ) throws Exception {
 
-        if (result.getPullRequestNumber() == null) {
+        if (result.getPullRequestNumber() == null || result.getPullRequestNumber() == 0L) {
 
             System.out.println(
                     "Full scan result received. "
