@@ -151,10 +151,20 @@ export default function Upload() {
   const folderInputRef = useRef(null)
 
   // ---------- File handling ----------
+  const VENDOR_DIRS = ['node_modules/', '__pycache__/', '.venv/', 'venv/', '.git/', 'target/', 'build/', 'dist/', '.idea/', '.gradle/']
+
   const addFiles = useCallback((incoming) => {
-    const valid = Array.from(incoming).filter(f => ALLOWED_EXT.has(ext(f.name)))
+    const valid = Array.from(incoming).filter(f => {
+      if (!ALLOWED_EXT.has(ext(f.name))) return false
+      
+      const path = f.webkitRelativePath || f.name
+      if (VENDOR_DIRS.some(vd => path.includes('/' + vd) || path.startsWith(vd))) return false
+      
+      return true
+    })
+    
     if (valid.length === 0) {
-      setError('No supported files found. Accepted: .java .py .js .ts .jsx .tsx .zip')
+      setError('No supported files found (vendor directories are excluded).')
       return
     }
     setFiles(prev => {
